@@ -32,6 +32,7 @@
 		"mongodb-uri": "^0.9.7",
 		"next": "^6.1.1",
 		"node-red": "^0.18.7",
+		"node-red-contrib-cheerio": "^1.1.0",
 		"path": "^0.12.7",
 		"ramda": "^0.25.0",
 		"react": "^16.4.1",

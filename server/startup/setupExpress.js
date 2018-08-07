@@ -4,6 +4,7 @@ import cors from 'cors';
 import healthcheck from 'express-healthcheck';
 
 import setupGraphQL from '../graphql';
+import setupNodered from '../nodered';
 
 Meteor.startup(() => {
   // Accounts.setPassword('4ffcf81084aecfbaff50fd05', 'konecty123@');
@@ -12,9 +13,7 @@ Meteor.startup(() => {
   app.use(cors());
   app.use('/healthcheck', healthcheck());
   setupGraphQL(app);
-  // app.get('/hello', (req, res) => {
-  //   res.status(200).json({ message: 'Hello World!!!' });
-  // });
+  setupNodered(WebApp.httpServer, app);
 
   WebApp.connectHandlers.use(app);
 });
