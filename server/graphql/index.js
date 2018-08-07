@@ -5,6 +5,7 @@ import { parse } from 'url';
 import { cond, always, T, endsWith } from 'ramda';
 
 import buildSchema from './buildSchema';
+import buildResolvers from './buildResolvers';
 
 const setupGraphQL = async app => {
   const dev = process.env.NODE_ENV !== 'production';
@@ -22,7 +23,17 @@ const setupGraphQL = async app => {
       ${buildSchema({ metadata })}
     `;
 
-    const server = new ApolloServer({ typeDefs });
+    const resolvers = buildResolvers({ metadata });
+
+    const server = new ApolloServer({
+      typeDefs,
+      resolvers,
+      playground: {
+        settings: {
+          'editor.theme': 'light'
+        }
+      }
+    });
     app.get('/graphql/docs', (req, res) => {
       const parsedUrl = parse(req.url, true);
       const { pathname, query } = parsedUrl;
