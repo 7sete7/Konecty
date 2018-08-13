@@ -30,8 +30,20 @@ const setupGraphQL = async app => {
       resolvers,
       playground: {
         settings: {
-          'editor.theme': 'light'
+          'editor.theme': 'light',
+          'general.betaUpdates': false,
+          'editor.cursorShape': 'line', // possible values: 'line', 'block', 'underline'
+          'editor.fontSize': 14,
+          'editor.fontFamily': `'Fira Code', 'Source Code Pro', 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace`,
+          'editor.reuseHeaders': true,
+          'request.credentials': 'include', // possible values: 'omit', 'include', 'same-origin'
+          'tracing.hideTracingResponse': true
         }
+      },
+      context: ({ req }) => {
+        return {
+          authTokenId: sessionUtils.getAuthTokenIdFromReq(req)
+        };
       }
     });
     app.get('/graphql/docs', (req, res) => {

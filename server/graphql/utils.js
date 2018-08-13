@@ -1,4 +1,4 @@
-import { filter, map, reduce, camelCase, upperFirst } from 'lodash';
+import { camelCase, upperFirst, isObject, isArray, reduce, map } from 'lodash';
 import R, {
   propEq,
   has,
@@ -9,7 +9,10 @@ import R, {
   always,
   cond,
   equals,
-  any
+  any,
+  omit,
+  set,
+  lensProp
 } from 'ramda';
 
 const scalarTypes = [
@@ -146,4 +149,21 @@ export const inputGraphType = field => {
   } else {
     return inputType;
   }
+};
+
+export const renameId = doc => {
+  if (isArray(doc)) {
+    return map(doc, renameId);
+  }
+  if (isObject(doc)) {
+    return reduce(
+      doc,
+      (acc, v, k) => ({
+        ...acc,
+        [k === '_id' ? 'id' : k]: renameId(v)
+      }),
+      {}
+    );
+  }
+  return doc;
 };

@@ -1,33 +1,25 @@
-import { filter, reduce } from 'lodash';
+import { filter, reduce, replace, map } from 'lodash';
 
-import { isDocumentOrComposite } from './utils';
+import { isDocumentOrComposite, renameId } from './utils';
 
 const documentResolver = params => null;
 const listResolver = (
   _,
-  { filter, sort, offset = 0, limit = 50 },
-  __,
+  { filter = { match: 'and', conditions: [] }, sort, offset = 0, limit = 50 },
+  { authTokenId },
   { returnType }
 ) => {
-  console.log(returnType);
-
-  // const result = Meteor.call('data:find:all', {
-  // authTokenId: sessionUtils.getAuthTokenIdFromReq(req),
-  // authTokenId: '/Ft1vJNPrsqCw/ovElcCjMxZSsbVJumM/7AeCpO9lI0=',
-  // document: returnType
-  // displayName: req.params.query.displayName,
-  // displayType: req.params.query.displayType,
-  // fields: req.params.query.fields,
-  // filter: req.params.query.filter,
-  // sort: req.params.query.sort,
-  // limit: req.params.query.limit,
-  // start: req.params.query.start,
-  // withDetailFields: req.params.query.withDetailFields,
-  // getTotal: true
-  // });
-  // console.log(result);
-
-  return null;
+  const { data } = Meteor.call('data:find:all', {
+    authTokenId,
+    document: replace(returnType, /[\[|\]]/g, ''), // `${returnType}`
+    filter,
+    sort,
+    limit,
+    start: offset,
+    withDetailFields: true,
+    getTotal: false
+  });
+  return map(data, renameId);
 };
 const countResolver = params => null;
 

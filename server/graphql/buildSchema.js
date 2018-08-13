@@ -61,9 +61,9 @@ const buildSchema = ({ metadata }) => {
           `\t${doc.name}Document(id: String!): ${doc.name}`,
           `\t${
             doc.name
-          }List(filter: Filter, sort: Sort, offset: Float, limit: Float): ${
+          }List(filter: Filter, sort: Sort, offset: Float, limit: Float): [${
             doc.name
-          }`,
+          }]`,
           `\t${doc.name}Count(filter: Filter): Float`
         ]),
       []
