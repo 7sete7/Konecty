@@ -9,10 +9,7 @@ import R, {
   always,
   cond,
   equals,
-  any,
-  omit,
-  set,
-  lensProp
+  any
 } from 'ramda';
 
 const scalarTypes = [
@@ -135,6 +132,13 @@ export const graphType = cond([
       prop('type')
     ),
     always('Date')
+  ],
+  [
+    compose(
+      equals('email'),
+      prop('type')
+    ),
+    always('Email')
   ],
   [T, always('String')]
 ]);

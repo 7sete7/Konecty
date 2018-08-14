@@ -180,6 +180,18 @@ input PhoneInput {
 	extention: String
 }
 
+type Email {
+  id: String
+  type: String
+  address: String
+}
+
+input EmailInput {
+  id: String
+  type: String
+  address: String
+}
+
 input AddressInput {
 	id: String
 	placeType: String
