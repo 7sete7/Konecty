@@ -7,8 +7,6 @@ import setupGraphQL from '../graphql';
 import setupNodered from '../nodered';
 
 Meteor.startup(() => {
-  // Accounts.setPassword('4ffcf81084aecfbaff50fd05', 'konecty123@');
-  // console.log('senha trocada');
   const app = express();
   app.use(cors());
   app.use('/healthcheck', healthcheck());
